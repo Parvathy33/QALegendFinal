@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite thread-count="2" parallel="tests" name="Failed suite [Suite]">
+  <listeners>
+    <listener class-name="listeners.RetryListener"/>
+    <listener class-name="listeners.TestListener"/>
+  </listeners>
+  <test thread-count="2" parallel="tests" name="Chrome(failed)">
+    <parameter name="Browser" value="Chrome"/>
+    <classes>
+      <class name="testClasses.LoginpageTestClass">
+        <methods>
+          <include name="verifySuccesfulLogin"/>
+          <include name="setUp"/>
+          <include name="tearDown"/>
+          <include name="verifyUnSuccesfulLogin"/>
+          <include name="verifyResetPassworddPageLoading"/>
+          <include name="verifyUsernameTextboxShowingHintorNot"/>
+        </methods>
+      </class> <!-- testClasses.LoginpageTestClass -->
+    </classes>
+  </test> <!-- Chrome(failed) -->
+  <test thread-count="2" parallel="tests" name="FirefoxTest(failed)">
+    <parameter name="Browser" value="Firefox"/>
+    <classes>
+      <class name="testClasses.LoginpageTestClass">
+        <methods>
+          <include name="verifySuccesfulLogin"/>
+          <include name="setUp"/>
+          <include name="tearDown"/>
+          <include name="verifyUnSuccesfulLogin"/>
+          <include name="verifyResetPassworddPageLoading"/>
+          <include name="verifyRemembermeCheckboxCheckOrNot"/>
+          <include name="verifyUsernameTextboxShowingHintorNot"/>
+        </methods>
+      </class> <!-- testClasses.LoginpageTestClass -->
+    </classes>
+  </test> <!-- FirefoxTest(failed) -->
+</suite> <!-- Failed suite [Suite] -->

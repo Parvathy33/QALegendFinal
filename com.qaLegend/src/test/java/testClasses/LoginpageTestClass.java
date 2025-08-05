@@ -1,0 +1,77 @@
+package testClasses;
+
+import java.io.IOException;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+	
+import Utilities.ExcelReadUtility;
+import baseClass.BaseClass;
+import dataProvider.DataProviderClass;
+import pageClasses.ForgotPasswordpageClass;
+import pageClasses.HomepageClass;
+import pageClasses.LoginpageClass;
+import retry.RetryAnalyser;
+
+public class LoginpageTestClass extends BaseClass {
+	@Test(retryAnalyzer = RetryAnalyser.class)
+
+	public void verifySuccesfulLogin() throws IOException {
+		LoginpageClass lp = new LoginpageClass(driver);
+		HomepageClass hp = lp.validLogin(ExcelReadUtility.getStringData(0, 0, "LoginPage"),ExcelReadUtility.getIntegerData(0, 1, "LoginPage"));
+		hp.ClickOnEndTourButton();
+		String actualResult = hp.getTextOfWelcomeHeading();
+		String expectedResult = ExcelReadUtility.getStringData(4, 0, "LoginPage");
+		Assert.assertTrue(actualResult.contains(expectedResult));
+
+	}
+	@Test(dataProviderClass = DataProviderClass.class,dataProvider = "verifyUnSuccesfulLogin")
+	public void verifyUnSuccesfulLogin(String uname,String pass)
+	{
+		LoginpageClass lp = new LoginpageClass(driver);
+		lp.invalidLogin(uname, pass);
+		String actualResult = lp.getTextofInvalidErrormsg();
+		String expectedResult = "These credentials do not match our records.";
+		Assert.assertTrue(actualResult.contains(expectedResult));
+
+	}
+
+	@Test(groups={"group1"})
+	public void verifyUsernameTextboxShowingHintorNot() {
+		LoginpageClass lp = new LoginpageClass(driver);
+		Boolean actualResult = lp.getPlaceholderattributeofUsername("placeholder").isEmpty();
+		Assert.assertEquals(actualResult, true);
+
+	}
+
+	@Test(groups={"group2"})
+	public void verifyApplicationLaunch() {
+		LoginpageClass lp = new LoginpageClass(driver);
+		String actualResult = lp.getLoginpageHeading();
+		String expectedResult = "Demo POS";
+		Assert.assertTrue(actualResult.contains(expectedResult));
+
+	}
+
+	@Test(groups={"group2"})
+	public void verifyRemembermeCheckboxCheckOrNot() {
+		LoginpageClass lp = new LoginpageClass(driver);
+		boolean actualResult = lp.checkBoxEnableOrNot();
+		System.out.println(actualResult);
+		Assert.assertEquals(actualResult, false);
+	}
+	
+	@Test
+	public void verifyResetPassworddPageLoading()
+	{
+		LoginpageClass lp = new LoginpageClass(driver);
+		ForgotPasswordpageClass resetPage =  lp.clickForgotPassword();
+		boolean actualResult =  resetPage.isForgotPasswordPageLoaded();
+		System.out.println(actualResult);
+		Assert.assertEquals(actualResult, true);
+		
+	}
+	}
+
+//in 3 class create 5 Test case
+// 
